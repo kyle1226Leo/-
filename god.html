@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神明介紹 - 二重埔慈元宮</title>
+    <style>
+        /* ======================================================== */
+        /* 🎨 全域變數與基本設定 */
+        /* ======================================================== */
+        :root {
+            --primary-red: #e53935;    /* 慈元經典紅 */
+            --primary-yellow: #ffeb3b; /* 廟宇金黃 */
+            --sky-blue: #0288d1;       /* 晴空藍 */
+            --bg-light: #fdfaf4;       /* 暖色調宮廟風背景 */
+            --card-bg: #ffffff;
+            --text-main: #2b2b2b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 130px; /* 留出空間防止被頂部導覽列遮擋 */
+        }
+
+        /* ======================================================== */
+        /* 📌 固定頂部導覽列 */
+        /* ======================================================== */
+        header {
+            background-color: var(--primary-yellow);
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-red);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--sky-blue);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--primary-red);
+        }
+
+        /* ======================================================== */
+        /* ⛩️ 專屬頁面大橫幅 Banner */
+        /* ======================================================== */
+        .page-banner {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #b71c1c 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .page-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .page-banner p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #ffecb3;
+        }
+
+        /* ======================================================== */
+        /* 📦 神明網格佈局區 */
+        /* ======================================================== */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto 5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* 人物/神明卡片 */
+        .person-card {
+            background-color: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            border: 1px solid #eee1cd;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .person-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(183, 28, 28, 0.15);
+            border-color: var(--primary-red);
+        }
+
+        .photo-box {
+            width: 100%;
+            height: 280px;
+            background-color: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .person-card:hover .photo-box img {
+            transform: scale(1.05);
+        }
+
+        .info-box {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .name-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .name { 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+            margin: 0; 
+            color: #111; 
+        }
+
+        .tag { 
+            font-size: 0.8rem; 
+            background-color: #ffebee; 
+            color: var(--primary-red); 
+            padding: 0.2rem 0.6rem; 
+            border-radius: 4px; 
+            font-weight: bold; 
+        }
+
+        /* 卡片按鈕 */
+        .view-btn {
+            background-color: #fff;
+            color: var(--primary-red);
+            border: 2px solid var(--primary-red);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.25s;
+            margin-top: auto;
+        }
+
+        .person-card:hover .view-btn {
+            background-color: var(--primary-red);
+            color: #fff;
+        }
+
+        /* ======================================================== */
+        /* 🛠️ 全螢幕滿版展示視窗樣式 (剧院模式) */
+        /* ======================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 左側滿版大圖 */
+        .modal-left-photo {
+            flex: 1;
+            flex-basis: 50%;
+            height: 100vh;
+            background-color: #1a1a1a;
+        }
+        
+        .modal-left-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 確保神明金身神韻不被切到 */
+            background-color: #111;
+        }
+
+        /* 右側介紹文字區 */
+        .modal-right-info {
+            flex: 1;
+            flex-basis: 50%;
+            height: 100vh;
+            padding: 6rem 5rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #ffffff;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* 進場動畫 */
+        .modal-overlay.active .modal-content-animate {
+            animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-name-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 1rem;
+            opacity: 0;
+        }
+        
+        .modal-name { 
+            font-size: 2.5rem; 
+            margin: 0; 
+            color: var(--primary-red); 
+            font-weight: bold; 
+        }
+
+        .modal-body { 
+            font-size: 1.2rem; 
+            color: #333333; 
+            line-height: 2; 
+            text-align: justify; 
+            margin: 0; 
+            white-space: pre-line; /* 支援 \n 換行 */
+            opacity: 0; 
+            animation-delay: 0.15s; 
+        }
+
+        /* 右上角膠囊關閉按鈕 */
+        .close-btn {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 1.1rem;
+            color: #2b2b2b;
+            background: #f1f2f6;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            border: 1px solid #e4e7eb;
+        }
+        
+        .close-btn:hover { 
+            background: var(--primary-red); 
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* ======================================================== */
+        /* 📱 RWD 響應式：手機板轉為上下分層 */
+        /* ======================================================== */
+        @media (max-width: 900px) {
+            body {
+                padding-top: 110px;
+            }
+            .modal-overlay {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+            .modal-left-photo {
+                flex: none;
+                height: 45vh;
+                width: 100%;
+            }
+            .modal-right-info {
+                flex: none;
+                height: auto;
+                min-height: 55vh;
+                padding: 3rem 2rem;
+                width: 100%;
+            }
+            .modal-name { font-size: 2rem; }
+            .close-btn {
+                top: 20px;
+                right: 20px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--primary-red);
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#home" class="logo"><img src="imagesHW/logo.png" width=100 height=100</a>
+            <nav>
+                <td align=center><a href=HW.html><font>首頁</font></a></td>
+                <td align=center><a href=ACT.html><font>活動</font></a></td>
+                <td align=center><a href=God.html><font>神明介紹</font></a></td>
+                <td align=center><a href=ANN.html><font>公告</font></a></td>
+                <td align=center><a href=.html><font>照片</font></a></td>
+                <td align=center><a href=TMF.html><font>媽祖會</font></a></td>
+                <td align=center><a href=Game.html><font>小遊戲</font></a></td>
+                <a href="https://www.facebook.com/DoublePoChiYuanPalace?locale=zh_TW" target="_blank">FB官網</a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="people-grid">
+            </div>
+    </main>
+
+    <div class="modal-overlay" id="customModal">
+        <div class="close-btn" id="closeModal">✕ 關閉視窗</div>
+        <div class="modal-left-photo">
+            <img id="modalImg" src="" alt="神尊聖相照片">
+        </div>
+        <div class="modal-right-info">
+            <div class="modal-name-row modal-content-animate">
+                <h2 class="modal-name" id="modalName">神明尊號</h2>
+                <span class="tag" id="modalTag">列位尊神</span>
+            </div>
+            <p class="modal-body modal-content-animate" id="modalDesc">詳細介紹內容...</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 二重埔慈元宮. 版權所有 All Rights Reserved.
+    </footer>
+
+    <script>
+        // 🛠️ 【19位神尊資料庫】已全面清理補齊 tag 屬性，絕不產生 undefined
+        const peopleData = [
+            { name: "天上聖母(大媽)", tag: "本宮奉祀", img: "imagesHW/DM.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆三月廿三日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "天上聖母(二媽)", tag: "本宮奉祀", img: "imagesHW/erM.PNG", desc: "分靈自：笨港口港口宮\n聖誕日：農曆三月廿三日\n二媽慈悲為懷，專責護佑地方鄉親，傾聽並處理信徒日常生活雜事、家內闔家平安、調和身體健康與祈求傳宗接代。" },
+            { name: "天上聖母(三媽)", tag: "本宮奉祀", img: "imagesHW/SM.PNG", desc: "分靈自：笨港口港口宮\n聖誕日：農曆三月廿三日\n三媽神威顯赫，專司驅邪避凶、斬妖除魔，為無助信徒排解卡陰、破除煞氣及處理各種生活中的疑難雜症。" },
+            { name: "瑤池金母", tag: "列位尊神", img: "imagesHW/MN.PNG", desc: "分靈自：花蓮聖地慈惠堂\n聖誕日：農曆七月十八日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "觀世音菩薩", tag: "列位尊神", img: "imagesHW/GShY.i.PNG", desc: "分靈自：屏東楓港紫竹林龍峰寺\n聖誕日：農曆二月十九日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "濟公師父", tag: "列位尊神", img: "imagesHW/JG.PNG", desc: "分靈自：甲仙天臺山靈隱寺\n聖誕日：農曆二月初二日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "中壇元帥(南天太子)", tag: "核心神尊", img: "imagesHW/NT.PNG", desc: "從南天門直降\n聖誕日：農曆九月初九日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "中壇元帥(九龍太子)", tag: "列位尊神", img: "imagesHW/JL.PNG", desc: "分靈自：麻豆太子宮\n聖誕日：農曆九月初九日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "福德正神", tag: "守護土地", img: "imagesHW/TDG.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆二月初二日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "虎爺將軍(下山虎)", tag: "本宮護法", img: "imagesHW/HY.i.PNG", desc: "分靈自：五虎山\n聖誕日：農曆六月初六日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "千里眼", tag: "媽祖護法", img: "imagesHW/QLY.i.PNG", desc: "大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "順風耳", tag: "媽祖護法", img: "imagesHW/SHFer.PNG", desc: "大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "中壇元帥(小太子)", tag: "本宮護法", img: "imagesHW/X.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆三月廿三日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "李先祖", tag: "列位尊神", img: "imagesHW/LTG.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆四月初八日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "玄天上帝", tag: "列位尊神", img: "imagesHW/XT.PNG", desc: "分靈自：梅山玉虛宮\n聖誕日：農曆三月初三日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "中壇元帥(蓮花太子)", tag: "列位尊神", img: "imagesHW/LH.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆九月初九日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "關聖帝君", tag: "文武財神", img: "imagesHW/DDJ.PNG", desc: "分靈自：四湖參天宮\n聖誕日：農曆六月廿四日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "關聖帝君", tag: "文武財神", img: "imagesHW/XDJ.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆六月廿四日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "天上聖母(三媽)", tag: "核心團員", img: "imagesHW/SM1.PNG", desc: "分靈自：笨港口港口宮\n聖誕日：農曆三月廿三日\n三媽神威顯赫，專司驅邪避凶、斬妖除魔，為無助信徒排解卡陰、破除煞氣及處理各種生活中的疑難雜症。" },
+            { name: "黑虎將軍", tag: "本宮護法", img: "imagesHW/HH.PNG", desc: "分靈自：花蓮港天宮\n聖誕日：農曆三月廿三日\n大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" },
+            { name: "五營將軍", tag: "守護壇界", img: "imagesHW/W.uY.i.PNG", desc: "大媽聖德昭彰，地位尊崇，主司國家榮華、護國佑民、庇萬民之功祿與壽元。" }
+        ];
+
+        // 渲染網格卡片
+        const grid = document.querySelector('.people-grid');
+        peopleData.forEach((person, index) => {
+            const card = document.createElement('div');
+            card.className = 'person-card';
+            card.onclick = () => openModal(index);
+            
+            // 💡 核心防呆：如果資料還是漏掉 tag，會自動給予預設值「列位尊神」
+            const finalTag = person.tag ? person.tag : "列位尊神";
+            
+            card.innerHTML = `
+                <div class="photo-box">
+                    <img src="${person.img}" alt="${person.name}" onerror="this.src='https://picsum.photos/id/1025/300/300';">
+                </div>
+                <div class="info-box">
+                    <div class="name-row">
+                        <h3 class="name">${person.name}</h3>
+                        <span class="tag">${finalTag}</span>
+                    </div>
+                    <div class="view-btn">瞻仰聖相與紀事 →</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // 全螢幕視窗控制
+        const modal = document.getElementById('customModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalName = document.getElementById('modalName');
+        const modalTag = document.getElementById('modalTag');
+        const modalDesc = document.getElementById('modalDesc');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        function openModal(index) {
+            const data = peopleData[index];
+            modalImg.src = data.img;
+            modalImg.onerror = function() { this.src = 'https://picsum.photos/id/1025/800/800'; };
+            
+            modalName.innerText = data.name;
+            modalTag.innerText = data.tag ? data.tag : "列位尊神"; // 防呆機制
+            modalDesc.innerText = data.desc;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        closeModalBtn.onclick = closeModal;
+
+        // 點擊背景空白處直接關閉
+        modal.onclick = function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>

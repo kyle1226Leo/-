@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二重埔慈元宮</title>
+    <style>
+        /* 全域樣式與平滑滾動 */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* 固定在頂部的導覽列 */
+        header {
+            background-color: #ffeb3b;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e53935; /* 經典紅色 */
+            text-decoration: none;
+        }
+
+        nav a {
+            color: #0288d1;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: #e53935;
+        }
+
+        /* 區塊容器 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 20px 40px 20px; /* 留 padding 防止內容被置頂導覽列遮擋 */
+        }
+
+        section {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #e53935;
+            border-bottom: 3px solid #ffeb3b;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: #0288d1;
+            margin-top: 25px;
+        }
+
+        blockquote {
+            background: #fff9c4;
+            border-left: 5px solid #e53935;
+            margin: 1.5em 0;
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .card {
+            border: 2px solid #ffeb3b;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #fff9c4;
+        }
+
+        .card h3 {
+            color: #e53935;
+            margin-top: 0;
+        }
+
+        .card-blue {
+            border: 2px solid #0288d1;
+            background-color: #e1f5fe;
+        }
+
+        .card-blue h3 {
+            color: #0288d1;
+        }
+
+        .rating {
+            color: #f57c00;
+            font-weight: bold;
+        }
+
+        /* 聯絡表單樣式 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #0288d1;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #e53935;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #0288d1;
+            color: white;
+        }
+
+        /* ==================== 巨幕活動版加入的額外樣式 ==================== */
+        * {
+            box-sizing: border-box;
+        }
+        .event-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 3.5rem;
+            overflow: hidden;
+            padding: 0px !important; /* 讓輪播圖貼邊 */
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .slider {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            flex: 0 0 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 2rem 1.5rem 1rem;
+            font-size: 0.95rem;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+            z-index: 10;
+        }
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            color: #111;
+        }
+        .btn-prev { left: 15px; }
+        .btn-next { right: 15px; }
+        .content-box {
+            padding: 2.5rem;
+        }
+        .title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        .info-row {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .info-item strong {
+            color: #e67e22;
+        }
+        .main-desc {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #555;
+            font-size: 0.98rem;
+            border-top: 0 solid #eee;
+        }
+        .details.active {
+            max-height: 1000px;
+            border-top: 1px solid #eee;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+        .details p { margin-top: 1rem; }
+        .details ul { margin-top: 0.8rem; padding-left: 1.5rem; }
+        .details li { margin-bottom: 0.4rem; }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .toggle-btn, .fullscreen-btn {
+            background: none;
+            border: 2px solid #203a43;
+            color: #203a43;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: auto;
+        }
+        .toggle-btn:hover {
+            background: #203a43;
+            color: white;
+        }
+        .fullscreen-btn {
+            background: #203a43;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .fullscreen-btn:hover {
+            background: #0f2027;
+            border-color: #0f2027;
+        }
+        .hidden-photos-pool {
+            display: none !important;
+        }
+
+        /* 全螢幕彈出視窗 (Modal) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 15, 20, 0.96);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-wrapper {
+            background: #ffffff;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            transform: scale(1.05);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .modal-overlay.active .modal-wrapper {
+            transform: scale(1);
+        }
+        .close-modal-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .close-modal-btn:hover {
+            background: #ff4757;
+            transform: scale(1.1);
+        }
+        .modal-left {
+            flex: 1.4;
+            height: 100%;
+            background: #000;
+            position: relative;
+        }
+        .modal-left .slider-container {
+            height: 100%;
+        }
+        .modal-right {
+            flex: 1;
+            height: 100%;
+            padding: 4rem 3.5rem;
+            overflow-y: auto;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #eef2f5;
+        }
+        .modal-right .details {
+            max-height: none !important;
+            opacity: 1;
+            border-top: 2px solid #f3f4f6;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+        }
+        .slide-counter {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+        @media (max-width: 992px) {
+            .modal-wrapper { flex-direction: column; }
+            .modal-left { flex: 1; max-height: 45%; }
+            .modal-right { flex: 1.2; padding: 2rem 1.5rem; }
+            .slider-container { height: 300px; }
+            .btn-group { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#home" class="logo"><img src="imagesHW/logo.png" width="100" height="100" alt="Logo"></a>
+            <nav>
+                <a href="HW.html">首頁</a>
+                <a href="ACT.html">活動</a>
+                <a href="God.html">神明介紹</a>
+                <a href="ANN.html">公告</a>
+                <a href="Photos.html">照片</a>
+                <a href="TMF.html">媽祖會</a>
+                <a href="Game.html">小遊戲</a>
+                <a href="https://www.facebook.com/DoublePoChiYuanPalace?locale=zh_TW" target="_blank">FB官網</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="event-section" id="event-1">
+            <div class="slider-container" id="carousel-1">
+                <button class="slider-btn btn-prev" onclick="moveSlide('carousel-1', -1)">&#10094;</button>
+                <button class="slider-btn btn-next" onclick="moveSlide('carousel-1', 1)">&#10095;</button>
+                <div class="slider">
+                    <div class="slide" style="background-image: url('imagesHW/BC1.jpg');"><div class="slide-caption">視角 01：主會場大師論壇高峰對談</div></div>
+                    <div class="slide" style="background-image: url('imagesHW/BC2.jpg');"><div class="slide-caption">視角 02：前沿科技互動體驗展區</div></div>
+                    <div class="slide" style="background-image: url('imagesHW/BC3.jpg');"><div class="slide-caption">視角 03：全球創業家交流晚宴現場</div></div>
+                </div>
+            </div>
+            <div class="hidden-photos-pool">
+                <div class="slide" style="background-image: url('imagesHW/BC4.jpg');" data-caption="活動一 - 照片 01：主會場大師論壇高峰對談"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC5.jpg');" data-caption="活動一 - 照片 02：前沿科技互動體驗展區"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC6.jpg');" data-caption="活動一 - 照片 03：全球創業家交流晚宴現場"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC7.jpg');" data-caption="活動一 - 照片 04：分會場 AI 演算法深度工作坊"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC8.jpg');" data-caption="活動一 - 照片 05：未來智慧硬體與機器人演示"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC9.jpg');" data-caption="活動一 - 照片 06：5G/6G 次世代通訊技術應用展示"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC10.jpg');" data-caption="活動一 - 照片 07：網路安全與零信任架構攻防演練"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC11.jpg');" data-caption="活動一 - 照片 08：雲端運算與大數據可視化中控台"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC12.jpg');" data-caption="活動一 - 照片 09：生物科技與數位醫療跨界整合"></div>
+                <div class="slide" style="background-image: url('imagesHW/BC13.jpg');" data-caption="活動一 - 照片 10：綠色永續數據中心落地方案研討"></div>
+            </div>
+            <div class="content-box">
+                <h2 class="title">祭改</h2>
+                <div class="info-row">
+                    <div class="info-item">📅 日期：<strong>國曆：2027年4月29日</strong></div>
+                    <div class="info-item">🎟️ 名額：<strong>最後 45 席</strong></div>
+                </div>
+                <p class="main-desc">用來消災解厄、轉換低迷運勢</p>
+                <div class="details">
+                    <p>這場為期兩天的峰會將深入探討人工智慧在各行各業的實際落地應用、量子計算的突破性進展、以及下一代 Web3 生態系的演變。</p>
+                    <ul>
+                        <li><strong>亮點演程：</strong> 早上 09:00 主題演講「AI 2.0 如何重塑商業核心競爭力」</li>
+                        <li><strong>圓桌論壇：</strong> 下午 14:00 與亞太區跨國科技高層面對面。</li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="toggle-btn" onclick="toggleDetails(this)">閱讀更多詳細內容</button>
+                    <button class="fullscreen-btn" onclick="openFullscreen('event-1')">🖥️ 全螢幕巨幕模式 (10張圖)</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-section" id="event-2">
+            <div class="slider-container" id="carousel-2">
+                <button class="slider-btn btn-prev" onclick="moveSlide('carousel-2', -1)">&#10094;</button>
+                <button class="slider-btn btn-next" onclick="moveSlide('carousel-2', 1)">&#10095;</button>
+                <div class="slider">
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1000');"><div class="slide-caption">1</div></div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1000');"><div class="slide-caption">2</div></div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1000');"><div class="slide-caption">3</div></div>
+                </div>
+            </div>
+            <div class="hidden-photos-pool">
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1200');" data-caption="活動二 - 照片 01：當代新銳油畫與複合媒材區"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1200');" data-caption="活動二 - 照片 02：沉浸式數位光影藝術長廊"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200');" data-caption="活動二 - 照片 03：互動區：藝術家大師工作坊"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1501472312651-726afe119ff1?w=1200');" data-caption="活動二 - 照片 04：極簡主義雕塑特展"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?w=1200');" data-caption="活動二 - 照片 05：街頭塗鴉與波普藝術碰撞"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1547891654-e66ed7edd96c?w=1200');" data-caption="活動二 - 照片 06：古典水墨的現代數位重構"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=1200');" data-caption="活動二 - 照片 07：達達主義行為藝術影像紀錄"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1573521193826-58c7dc2e13e3?w=1200');" data-caption="活動二 - 照片 08：大型戶外編織地景裝置"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200');" data-caption="活動二 - 照片 09：新生代女性視角攝影特展"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=1200');" data-caption="活動二 - 照片 10：盲盒藝術玩具與潮流文化展區"></div>
+            </div>
+            <div class="content-box">
+                <h2 class="title">進香</h2>
+                <div class="info-row">
+                    <div class="info-item">📅 日期：<strong>國曆：2027年4月10、11日</strong></div>
+                    <div class="info-item"><strong>農曆丁未年三月初四、初五</strong></div>
+                    <div class="info-item">🎟️ 票價：<strong>限時早鳥票 $250</strong></div>
+                </div>
+                <p class="main-desc">橫跨實體畫作與數位流體藝術，集結海內外 30 位跨界藝術家的心血結晶，展開一場極致視覺洗禮。</p>
+                <div class="details">
+                    <p>本次展覽以「共生」為核心概念，探討人類、自然與人工智慧在數位時代下的新型態關係。展場特別規劃了 360 度環景光影投射區。</p>
+                    <ul>
+                        <li><strong>藝術家導覽：</strong> 每逢週六、日，將舉辦藝術家親自導覽場次。</li>
+                        <li><strong>限定周邊：</strong> 展區出口設有聯名限定周邊商店。</li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="toggle-btn" onclick="toggleDetails(this)">閱讀更多詳細內容</button>
+                    <button class="fullscreen-btn" onclick="openFullscreen('event-2')">🖥️ 全螢幕巨幕模式 (10張圖)</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-section" id="event-3">
+            <div class="slider-container" id="carousel-3">
+                <button class="slider-btn btn-prev" onclick="moveSlide('carousel-3', -1)">&#10094;</button>
+                <button class="slider-btn btn-next" onclick="moveSlide('carousel-3', 1)">&#10095;</button>
+                <div class="slider">
+                    <div class="slide" style="background-image: url('imagesHW/DOB4.jpg');"></div>
+                    <div class="slide" style="background-image: url('imagesHW/DOB10.jpg');"></div>
+                    <div class="slide" style="background-image: url('imagesHW/DOB13.jpg');"></div>
+                </div>
+            </div>
+            <div class="hidden-photos-pool">
+                <div class="slide" style="background-image: url('imagesHW/DOB1.jpg');" data-caption="活動三 - 照片 01"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB2.jpg');" data-caption="活動三 - 照片 02"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB3.jpg');" data-caption="活動三 - 照片 03"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB5.jpg');" data-caption="活動三 - 照片 04"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB6.jpg');" data-caption="活動三 - 照片 05"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB7.jpg');" data-caption="活動三 - 照片 06"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB8.jpg');" data-caption="活動三 - 照片 07"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB9.jpg');" data-caption="活動三 - 照片 08"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB11.jpg');" data-caption="活動三 - 照片 09"></div>
+                <div class="slide" style="background-image: url('imagesHW/DOB12.jpg');" data-caption="活動三 - 照片 10"></div>
+            </div>
+            <div class="content-box">
+                <h2 class="title">媽祖聖誕</h2>
+                <div class="info-row">
+                    <div class="info-item">📅 日期：<strong>國曆：2027年4月29日</strong></div>
+                    <div class="info-item"><strong>農曆：三月廿三日</strong></div>
+                    <div class="info-item">🎟️ 特色：<strong>現場憑學生證享 8 折</strong></div>
+                </div>
+                <p class="main-desc">慶祝媽祖誕辰的日子</p>
+                <div class="details">
+                    <p>今年音樂節首度採用雙舞台設計：【星空舞台】主打主流樂團；【浪潮舞台】則由頂尖 DJ 帶來不間斷的電音派對。現場更邀集了全台 40 家超人氣排隊美食餐車。</p>
+                </div>
+                <div class="btn-group">
+                    <button class="toggle-btn" onclick="toggleDetails(this)">閱讀更多詳細內容</button>
+                    <button class="fullscreen-btn" onclick="openFullscreen('event-3')">🖥️ 全螢幕巨幕模式 (10張圖)</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-section" id="event-4">
+            <div class="slider-container" id="carousel-4">
+                <button class="slider-btn btn-prev" onclick="moveSlide('carousel-4', -1)">&#10094;</button>
+                <button class="slider-btn btn-next" onclick="moveSlide('carousel-4', 1)">&#10095;</button>
+                <div class="slider">
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1000');"><div class="slide-caption">視角 01：晨曦流動瑜珈基礎體式</div></div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1000');"><div class="slide-caption">視角 02：尼泊爾正宗頌缽音療沉浸</div></div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=1000');"><div class="slide-caption">視角 03：工作坊：有機草本香氛調配</div></div>
+                </div>
+            </div>
+            <div class="hidden-photos-pool">
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200');" data-caption="活動四 - 照片 01：晨曦流動瑜珈基礎體式"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200');" data-caption="活動四 - 照片 02：尼泊爾正宗頌缽音療沉浸"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=1200');" data-caption="活動四 - 照片 03：工作坊：有機草本香氛調配"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=1200');" data-caption="活動四 - 照片 04：全體森林席地正念冥想"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200');" data-caption="活動四 - 照片 05：進階戶外雙人核心拉伸"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1536622432287-12d352709620?w=1200');" data-caption="活動四 - 照片 06：米其林星級低卡輕食午餐"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1607692847825-e51c8a49a56e?w=1200');" data-caption="活動四 - 照片 07：草本花草茶盲測與品茗會"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1200');" data-caption="活動四 - 照片 08：一對一心理占星諮詢區"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1200');" data-caption="活動四 - 照片 09：午後森林赤腳「接地氣」慢行"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?w=1200');" data-caption="活動四 - 照片 10：日落合奏：阿卡貝拉人聲合唱收尾"></div>
+            </div>
+            <div class="content-box">
+                <h2 class="title">中元普渡</h2>
+                <div class="info-row">
+                    <div class="info-item">📅 日期：<strong>國曆：2026年8月23日</strong></div>
+                    <div class="info-item"><strong>農曆：丙午年七月十一日</strong></div>
+                    <div class="info-item">🎟️ 備註：<strong>附精緻蔬食餐盒、附瑜珈墊</strong></div>
+                </div>
+                <p class="main-desc">讓緊繃的神經休息一下吧！由資深導師全程帶領，在充滿芬多精的森林草地上找回平靜。</p>
+                <div class="details">
+                    <p>這是一場專為高壓現代人設計的全日減壓工作坊。活動從早晨的「流動瑜珈與大自然連結」開始，下午進入核心的「喜馬拉雅頌缽深層音療」。</p>
+                </div>
+                <div class="btn-group">
+                    <button class="toggle-btn" onclick="toggleDetails(this)">閱讀更多詳細內容</button>
+                    <button class="fullscreen-btn" onclick="openFullscreen('event-4')">🖥️ 全螢幕巨幕模式 (10張圖)</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-section" id="event-5">
+            <div class="slider-container" id="carousel-5">
+                <button class="slider-btn btn-prev" onclick="moveSlide('carousel-5', -1)">&#10094;</button>
+                <button class="slider-btn btn-next" onclick="moveSlide('carousel-5', 1)">&#10095;</button>
+                <div class="slider">
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1000');"><div class="slide-caption">視角 01：新創團隊 Pitch 大賽發表</div></div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000');"><div class="slide-caption">視角 02：媒合：一對一投資人閉門對談</div></div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000');"><div class="slide-caption">視角 03：交流：創業者人脈雞尾酒之夜</div></div>
+                </div>
+            </div>
+            <div class="hidden-photos-pool">
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200');" data-caption="活動五 - 照片 01：新創團隊 Pitch 大賽發表"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200');" data-caption="活動五 - 照片 02：媒合：一對一投資人閉門對談"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200');" data-caption="活動五 - 照片 03：交流：創業者人脈雞尾酒之夜"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200');" data-caption="活動五 - 照片 04：海外矽谷導師遠端連線點評"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200');" data-caption="活動五 - 照片 05：創業路演（Demo）簽約預訂儀式"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?w=1200');" data-caption="活動五 - 照片 06：矽谷常見股權結構法律諮詢站"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200');" data-caption="活動五 - 照片 07：創投媒體專訪新創獨角獸區"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200');" data-caption="活動五 - 照片 08：女性創業家專屬早餐交流會"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1542744094-2ab25be78b90?w=1200');" data-caption="活動五 - 照片 09：區塊鏈新創項目閉門爭霸賽"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1521737711867-e3b90473bd58?w=1200');" data-caption="活動五 - 照片 10：百萬創業基金總決賽頒獎大合照"></div>
+            </div>
+            <div class="content-box">
+                <h2 class="title">清屯</h2>
+                <div class="info-row">
+                    <div class="info-item">📅 日期：<strong>國曆：2026.10.12</strong></div>
+                    <div class="info-item">🎟️ 身分：<strong>創業者/投資人/旁聽觀眾</strong></div>
+                </div>
+                <p class="main-desc">有創業夢卻缺少第一桶金？全台最大規模的創投對接會，20+創投機構現場駐點，為你的點子注入燃料！</p>
+                <div class="details">
+                    <p>本場媒合會採取「閃電發表」與「精準對接」兩大機制。上半場由初選脫穎而出的 15 組優秀新創團隊進行 6 分鐘的 Demo Show。</p>
+                </div>
+                <div class="btn-group">
+                    <button class="toggle-btn" onclick="toggleDetails(this)">閱讀更多詳細內容</button>
+                    <button class="fullscreen-btn" onclick="openFullscreen('event-5')">🖥️ 全螢幕巨幕模式 (10張圖)</button>
+                </div>
+            </div>
+        </section>
+
+    </div> <div class="modal-overlay" id="customModal">
+        <div class="modal-wrapper">
+            <button class="close-modal-btn" onclick="closeFullscreen()">&times;</button>
+            <div class="modal-left">
+                <div class="slide-counter" id="modalCounter">1 / 10</div>
+                <div class="slider-container" id="modalCarousel" style="height: 100%;">
+                    <div class="slider" id="modalSlider"></div>
+                </div>
+            </div>
+            <div class="modal-right">
+                <h2 id="modalTitle" style="color:#e53935; margin-bottom:15px;">活動詳情</h2>
+                <div id="modalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 二重埔慈元宮 版權所有</p>
+    </footer>
+
+    <script>
+        const carouselIndexes = {};
+
+        // 控制主頁與全螢幕視窗中的幻燈片移動
+        function moveSlide(carouselId, direction) {
+            const container = document.getElementById(carouselId);
+            const slider = container.querySelector('.slider');
+            const slides = container.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+
+            if (totalSlides === 0) return;
+
+            if (carouselIndexes[carouselId] === undefined) {
+                carouselIndexes[carouselId] = 0;
+            }
+
+            carouselIndexes[carouselId] = (carouselIndexes[carouselId] + direction + totalSlides) % totalSlides;
+            slider.style.transform = `translateX(-${carouselIndexes[carouselId] * 100}%)`;
+            
+            // 如果是全螢幕 Modal 視窗，同步更新數字計數與對應大圖的 data-caption 標題
+            if (carouselId === 'modalCarousel') {
+                document.getElementById('modalCounter').innerText = `${carouselIndexes[carouselId] + 1} / ${totalSlides}`;
+                const currentSlide = slides[carouselIndexes[carouselId]];
+                const caption = currentSlide.getAttribute('data-caption') || "";
+                if(caption) {
+                    document.getElementById('modalTitle').innerText = caption;
+                }
+            }
+        }
+
+        // 展開 / 收合詳細內容
+        function toggleDetails(btnElement) {
+            const detailsDiv = btnElement.closest('.content-box').querySelector('.details');
+            detailsDiv.classList.toggle('active');
+            if (detailsDiv.classList.contains('active')) {
+                btnElement.innerText = "收合詳細內容";
+            } else {
+                btnElement.innerText = "閱讀更多詳細內容";
+            }
+        }
+
+        // 開啟全螢幕巨幕模式：精準抓取對應 Section 底下的 10 張照片與說明
+        function openFullscreen(sectionId) {
+            const section = document.getElementById(sectionId);
+            const modal = document.getElementById('customModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            const modalSlider = document.getElementById('modalSlider');
+            
+            // 抓取活動主標題與詳細內容文字
+            const mainTitle = section.querySelector('.title').innerText;
+            const detailsHtml = section.querySelector('.details').innerHTML;
+            
+            modalTitle.innerText = mainTitle;
+            modalContent.innerHTML = detailsHtml;
+            
+            // 清空全螢幕輪播，並複製該活動隱藏池 (hidden-photos-pool) 內的所有照片
+            modalSlider.innerHTML = '';
+            const poolSlides = section.querySelectorAll('.hidden-photos-pool .slide');
+            
+            poolSlides.forEach(slide => {
+                const clone = slide.cloneNode(true);
+                modalSlider.appendChild(clone);
+            });
+            
+            // 初始化全螢幕計數
+            carouselIndexes['modalCarousel'] = 0;
+            modalSlider.style.transform = 'translateX(0%)';
+            document.getElementById('modalCounter').innerText = `1 / ${poolSlides.length}`;
+            
+            // 如果該張圖片有獨立寫 data-caption，預設載入第一張的標題
+            if(poolSlides[0] && poolSlides[0].getAttribute('data-caption')) {
+                modalTitle.innerText = poolSlides[0].getAttribute('data-caption');
+            }
+            
+            modal.classList.add('active');
+            
+            // 動態加入全螢幕內部的切換按鈕（若尚未建立）
+            if (!modal.querySelector('.btn-prev')) {
+                modal.querySelector('.modal-left').insertAdjacentHTML('beforeend', `
+                    <button class="slider-btn btn-prev" onclick="moveSlide('modalCarousel', -1)">&#10094;</button>
+                    <button class="slider-btn btn-next" onclick="moveSlide('modalCarousel', 1)">&#10095;</button>
+                `);
+            }
+        }
+
+        // 關閉全螢幕
+        function closeFullscreen() {
+            document.getElementById('customModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

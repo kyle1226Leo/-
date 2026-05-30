@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二重埔慈元宮 - 最新資訊公告欄</title>
+    <style>
+        /* ==================== 全域設定 ==================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+            padding-top: 110px; /* 調整間距，防止內容被固定導覽列遮擋 */
+        }
+
+        /* ==================== 頂部導覽列 ==================== */
+        header.top-navbar {
+            background-color: #ffeb3b; /* 經典黃色 */
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav a {
+            color: #0288d1; /* 藍色文字 */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            transition: color 0.3s;
+            white-space: nowrap;
+            padding: 5px 10px;
+        }
+
+        nav a:hover {
+            color: #e53935; /* 懸停變經典紅 */
+        }
+
+        /* ==================== 跑馬燈快訊 ==================== */
+        .ticker-wrap {
+            background-color: #f57c00; /* 亮橘色警告 */
+            color: white;
+            padding: 12px 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .ticker-title {
+            background-color: #d84315;
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin-right: 15px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .ticker-text {
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* ==================== 主要內容區佈局 ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 30px;
+        }
+
+        /* ==================== 公告卡片樣式 ==================== */
+        .announcement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            border-left: 5px solid #0288d1;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 置頂公告樣式 */
+        .card.pinned {
+            border-left: 5px solid #e53935;
+            background-color: #fff9c4; /* 慈元宮黃色底襯托 */
+        }
+
+        .pin-badge {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background-color: #e53935;
+            color: white;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* 標籤與時間 */
+        .meta-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: #757575;
+        }
+
+        .category {
+            padding: 2px 10px;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .cat-news { background-color: #e53935; }     /* 重要公告-紅 */
+        .cat-event { background-color: #0288d1; }    /* 活動資訊-藍 */
+        .cat-maintain { background-color: #9c27b0; } /* 系統維護-紫 */
+
+        .date {
+            font-weight: 500;
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .card p {
+            color: #555;
+        }
+
+        /* ==================== 側邊欄 ==================== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .widget h3 {
+            border-bottom: 2px solid #e53935;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #e53935;
+        }
+
+        .widget ul {
+            list-style: none;
+        }
+
+        .widget li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 0.95rem;
+        }
+
+        .widget li:last-child {
+            border-bottom: none;
+        }
+
+        .widget a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .widget a:hover {
+            color: #0288d1;
+            text-decoration: underline;
+        }
+
+        /* ==================== 頁尾 ==================== */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #0288d1;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+
+        /* ==================== RWD 響應式：手機版自動調整 ==================== */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 150px; /* 手機版導覽列折行，增加上方間距 */
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            nav {
+                justify-content: center;
+                margin-left: 0;
+            }
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-navbar">
+        <div class="nav-container">
+            <a href="作業.html" class="logo">
+                <img src="imagesHW/logo.png" alt="二重埔慈元宮 Logo">
+            </a>
+            <nav>
+                <a href="HW.html">首頁</a>
+                <a href="ACT.html">活動</a>
+                <a href="God.html">神明介紹</a>
+                <a href="ANN.html">公告</a>
+                <a href="照片.html">照片</a>
+                <a href="TMF.html">媽祖會</a>
+                <a href="Game.html">小遊戲</a>
+                <a href="https://www.facebook.com/DoublePoChiYuanPalace?locale=zh_TW" target="_blank">FB官網</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="ticker-wrap">
+        <div class="ticker-title">緊急快訊</div>
+        <div class="ticker-text">【重要通知】系統將於本週六凌晨 00:00 - 04:00 進行維護，屆時線上服務將暫停，造成不便敬請見諒。</div>
+    </div>
+
+    <div class="container">
+        
+        <main class="announcement-list">
+            
+            <article class="card pinned">
+                <span class="pin-badge">置頂公告</span>
+                <div class="meta-info">
+                    <span class="category cat-news">重要公告</span>
+                    <span class="date">2026-05-27</span>
+                </div>
+                <h2>中元普渡</h2>
+                <p>           為慶贊中元，祈求闔家平安、</p>
+                <p> 事業順心、國泰民安。</p>
+                   <p> 天上聖母聖示擇於</p>
+<p> 民國114年(國)8/23、(農)7/11【星期日】</p>
+<p> 時間 : 下午1點開香</p>
+<p> 費用 :</p>
+<p> (一)普渡1份新台幣1800元(含供品、金紙、蓮花)</p>
+<p> (二)祖先薦拔、地基主薦拔、有緣薦拔、冤親債主薦拔、嬰靈薦拔</p>
+<p> 每1份新台幣800元(含菜碗、金紙、蓮花)</p>
+<p> (三)金紙一份新台幣500元</p>
+<p> (四)普渡白米代辦</p>
+<p> ★即日起開始報名，請參加之善信大德盡早報名，以利本宮準備供品。</p>
+<p> ★贊助白米與普渡供品本宮可協助統一捐贈慈善機關或家扶中心。</p>
+            </article>
+
+            <article class="card">
+                <div class="meta-info">
+                    <span class="category cat-event">活動資訊</span>
+                    <span class="date">2026-05-25</span>
+                </div>
+                <h2>慶祝媽祖聖誕</h2>
+                <p>5/8星期五晚上11:00有敬天 置天台 團拜為媽祖祝壽，祝 天上聖母 媽祖娘娘 聖誕。
+歡迎大家一同前來參與團拜為 媽祖 祝壽明日5/8星期五晚上11:00有敬天 置天台 團拜為媽祖祝壽，祝 天上聖母 媽祖娘娘 聖誕。
+歡迎大家一同前來參與團拜為 媽祖 祝壽 顯示較少</p>
+            </article>
+
+            <article class="card">
+                <div class="meta-info">
+                    <span class="category cat-maintain">系統維護</span>
+                    <span class="date">2026-05-20</span>
+                </div>
+                <h2>大陸進香</h2>
+                <p>丙午年</p>
+<p>115年6月20~24日陪同本宮媽祖(天上聖母 林默 )前往大陸謁祖參拜暨旅遊</p>
+            </article>
+
+        </main>
+
+        <aside class="sidebar">
+            
+            <div class="widget">
+                <h3>常用快速連結</h3>
+                <ul>
+                    <li><a href="HW.html">▸ 官方網站首頁</a></li>
+                    <li><a href="God.html">▸ 神明尊神介紹</a></li>
+                    <li><a href="ACT.html">▸ 點燈祈福與線上服務</a></li>
+                    <li><a href="https://www.facebook.com/DoublePoChiYuanPalace?locale=zh_TW" target="_blank">▸ 慈元宮 Facebook 粉絲專頁</a></li>
+                </ul>
+            </div>
+
+            <div class="widget">
+                <h3>聯絡我們</h3>
+                <p style="font-size: 0.9rem; color: #555; margin-top: 5px;">
+                    如有任何疑問，請洽服務專線：<br>
+                    <strong>(02)29952808</strong><br>
+                    服務時間：週一至週日 08:00 - 21:00
+                </p>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <footer>
+        &copy; 2026 二重埔慈元宮. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
