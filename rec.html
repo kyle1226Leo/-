@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二重埔慈元宮 - 宮廟歷史紀錄</title>
+    <style>
+        /* 全域樣式與平滑滾動 */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", 'Arial', 'Microsoft JhengHei', sans-serif;
+            background-color: #fffde7; /* 溫暖的淺黃色背景 */
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 固定在頂部的導覽列（恢復原本大氣的間距） */
+        header {
+            background-color: #ffeb3b; /* 亮黃色 */
+            padding: 15px 20px;       /* 恢復原本的上下內距 */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo img {
+            display: block;
+            /* 恢復原本設定：100px 大尺寸 */
+            width: 100px;
+            height: 100px;
+        }
+
+        nav a {
+            color: #0288d1; /* 動感超人藍 */
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #e53935; /* 經典紅色 */
+        }
+
+        /* 主要內容置中區塊 */
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            /* 關鍵修正：配合 100px 的 Logo，將頂部間距加大至 180px，第一個紀錄絕對不會被擋到 */
+            padding: 180px 15px 40px 15px; 
+            box-sizing: border-box;
+        }
+
+        /* 紀錄卡片樣式 */
+        .record-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ffeb3b; /* 淡淡的廟宇黃邊框，融合整體風格 */
+        }
+
+        /* 標題與時間區塊 */
+        .record-header {
+            margin-bottom: 15px;
+            border-left: 4px solid #e41e3f; /* 宮廟紅裝飾線 */
+            padding-left: 10px;
+        }
+
+        .record-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            color: #111111;
+        }
+
+        .record-time {
+            font-size: 13px;
+            color: #777777;
+            margin: 0;
+        }
+
+        /* 文字敘述 */
+        .record-content {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-line; /* 支援文字直接換行 */
+            color: #444444;
+        }
+
+        /* 圖片區塊 */
+        .record-image-container {
+            width: 100%;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .record-image {
+            width: 100%;
+            max-height: 450px;
+            display: block;
+            object-fit: cover; /* 讓圖片自動適應大小不變形 */
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #0288d1;
+            color: white;
+            font-weight: bold;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="imageshw/logo.png" width="100" height="100" alt="慈元宮Logo">
+            </a>
+            <nav>
+                <a href="index.html">首頁</a>
+                <a href="act.html">活動</a>
+                <a href="god.html">神明介紹</a>
+                <a href="ann.html">公告</a>
+                <a href="rec.html">紀錄</a>
+                <a href="tmf.html">媽祖會</a>
+                <a href="game.html">小遊戲</a>
+                <a href="https://www.facebook.com/DoublePoChiYuanPalace?locale=zh_TW" target="_blank">FB官網</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="record-card">
+            <div class="record-header">
+                <h2 class="record-title">歡迎 新北拱心宮 (拱天宮 白沙屯媽祖分靈)</h2>
+                <p class="record-time">日期：2025年1月1日</p>
+            </div>
+            <div class="record-content">
+                二重埔慈元宮 全體歡迎您
+願 天上聖母 媽祖婆 庇佑大家2025年平安健康
+            </div>
+            <div class="record-image-container">
+                <img src="images/visit_01.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+            </div>
+        </div>
+
+        <div class="record-card">
+            <div class="record-header">
+                <h2 class="record-title">歡迎 白沙屯媽祖台中清水分靈</h2>
+                <p class="record-time">日期：2025年10月18日</p>
+            </div>
+            <div class="record-content">
+白沙屯媽祖台中清水分靈
+行善宮 行善媽祖 蒞臨 二重埔慈元宮 駐駕
+會香神尊 :
+東獄大帝  吳府千歲
+行善媽祖  降龍大師父
+李府千歲  玄天上帝
+城隍爺      開台聖國聖爺
+歡迎蒞臨 二重埔慈元宮            </div>
+            <div class="record-image-container">
+                <img src="images/event_01.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        © 二重埔慈元宮 版權所有
+    </footer>
+
+</body>
+</html>

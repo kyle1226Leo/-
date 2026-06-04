@@ -17,7 +17,7 @@
             padding: 0;
         }
 
-        /* 固定在頂部的導覽列 */
+        /* 固定在頂部的導覽列 (維持原本大氣的大小) */
         header {
             background-color: #ffeb3b; /* 小新亮黃色 */
             padding: 15px 20px;
@@ -42,6 +42,8 @@
             font-weight: bold;
             color: #e53935; /* 經典紅色 */
             text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
         nav a {
@@ -60,7 +62,9 @@
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 120px 20px 40px 20px; /* 恢復原本的 120px padding 防止遮擋 */
+            /* 頂部推開 180px，第一個區塊完美不被擋 */
+            padding: 180px 20px 40px 20px; 
+            box-sizing: border-box;
         }
 
         section {
@@ -91,10 +95,18 @@
             border-radius: 0 5px 5px 0;
         }
 
-        /* 卡片式排版 */
+        /* 通用卡片式排版 (歷代宮主等區塊仍維持原設定) */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* 🛠️ 專為核心人物設計的 4 X 2 排版 */
+        .grid-container-characters {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 完美平分四個欄位 */
             gap: 20px;
             margin-top: 20px;
         }
@@ -152,6 +164,26 @@
             background-color: #b71c1c;
         }
 
+        /* 表單外層容器 */
+        .form-iframe-container {
+            width: 100%;
+            overflow: hidden; 
+            border-radius: 8px;
+        }
+
+        .form-iframe-container iframe {
+            width: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* 手機版 RWD 調適：避免 4 欄在手機上太擠，手機版自動切回垂直排列 */
+        @media (max-width: 768px) {
+            .grid-container-characters {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
         /* 頁尾 */
         footer {
             text-align: center;
@@ -159,18 +191,24 @@
             background-color: #0288d1;
             color: white;
         }
+        footer p {
+            color: white;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
 
+    <!-- 頂部固定導覽列 -->
     <header>
         <div class="nav-container">
-<a href="index.html" class="logo"><img src="logo.png" width="100" height="100" alt="Logo"></a>
+<a href="index.html" class="logo"><img src="imageshw/logo.png" width="100" height="100" alt="Logo"></a>
+            <nav>
                 <a href="index.html">首頁</a>
                 <a href="act.html">活動</a>
                 <a href="god.html">神明介紹</a>
                 <a href="ann.html">公告</a>
-                <a href="photo.html">照片</a>
+                <a href="rec.html">紀錄</a>
                 <a href="tmf.html">媽祖會</a>
                 <a href="game.html">小遊戲</a>
                 <a href="https://www.facebook.com/DoublePoChiYuanPalace?locale=zh_TW" target="_blank">FB官網</a>
@@ -183,8 +221,8 @@
         <section id="home">
             <h1>歡迎來到二重埔慈元宮！</h1>
             <p>主神 : 天上聖母 媽祖娘娘</p>
-            <p>供奉 : 大媽.二媽.三媽與千里眼.順風耳.觀世音菩薩.金母娘娘.濟公活佛.福德正神(土地公).鐵拐李(李道祖).玄天上帝.關聖帝君.九龍太子.蓮花太子.南天太子.三太子.虎爺</p>
-            
+            <p>供奉 : 大媽.二媽.三媽與千里眼.順風耳.觀世音菩薩.金母娘娘.濟公活佛.福德正神(土地公).鐵拐李(李道祖).玄天上帝.關盛帝君.九龍太子.蓮花太子.南天太子.三太子.虎爺</p>
+             
             <blockquote>
                 <strong>弘揚媽祖文化 能力所及助弱勢</strong>
             </blockquote>
@@ -198,11 +236,12 @@
             </ul>
         </section>
 
+        <!-- 🛠️ 核心人物區塊：已套用全新的 grid-container-characters 達到 4 X 2 效果 -->
         <section id="characters">
             <h1>二重埔慈元宮核心人物</h1>
             <p>主要工作人員</p>
 
-            <div class="grid-container">
+            <div class="grid-container-characters">
                 <div class="card">
                     <h3>住持</h3>
                     <p>李楊麥</p>
@@ -248,7 +287,7 @@
 
         <section id="scenarios">
             <h1>慈元宮沿革與發展</h1>
-            
+             
             <h2>建宮</h2>
             <p>國曆90年</p>
             <p>農曆辛巳年</p>
@@ -281,55 +320,6 @@
                 </div>
             </div>
         </section>
-
-<style>
-            #contact {
-                max-width: 800px;
-                margin: 40px auto;
-                padding: 30px 20px;
-                background-color: #ffffff;
-                border-radius: 15px;
-                box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-                border-top: 6px solid var(--temple-yellow); /* 頂部亮黃色滾邊 */
-                text-align: center;
-            }
-
-            #contact h1 {
-                color: var(--temple-red);
-                font-size: 2rem;
-                margin-bottom: 10px;
-            }
-
-            #contact p {
-                color: #666;
-                margin-bottom: 25px;
-                font-size: 1.05rem;
-            }
-
-            /* 表單外層容器 */
-            .form-iframe-container {
-                width: 100%;
-                overflow: hidden; /* 確保徹底鎖死多餘的切邊 */
-                border-radius: 8px;
-            }
-
-            .form-iframe-container iframe {
-                width: 100%;
-                border: none;
-                display: block;
-            }
-
-            /* RWD 手機版面微調 */
-            @media (max-width: 768px) {
-                #contact {
-                    margin: 20px 15px;
-                    padding: 20px 10px;
-                }
-                #contact h1 {
-                    font-size: 1.6rem;
-                }
-            }
-        </style>
 
         <section id="contact">
             <h1>信眾祈福與留言迴向</h1>
