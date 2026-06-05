@@ -132,76 +132,104 @@
         }
 
         /* =========================================
-           2. 優化後的圖片格線與 Lightbox CSS (新增/修改)
+           2. FB 風格四格照片格線
            ========================================= */
-        
-        /* 圖片外層區塊 */
         .record-image-container {
             width: 100%;
             border-radius: 6px;
             overflow: hidden;
             display: grid;
-            gap: 8px; /* 圖片之間的間距 */
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 6px; 
         }
 
-        /* [關鍵] 單張圖片時的縮圖樣式 */
-        .single-image-container {
-            grid-template-columns: 1fr;
-        }
-        
-        /* [關鍵] 多張圖片時的縮圖樣式 (變成 3 欄整齊格線) */
-        .multi-image-container {
-            grid-template-columns: repeat(3, 1fr); /* 電腦端 3 欄 */
+        .img-box {
+            position: relative;
+            width: 100%;
+            height: 160px; 
+            overflow: hidden;
+            display: block;
         }
 
-        /* 縮圖本身的樣式 */
+        /* 超過 4 張時，網頁畫面上隱藏，但功能保留 */
+        .img-box.hide-thumb {
+            display: none;
+        }
+
         .record-thumbnail {
             width: 100%;
-            height: 150px; /* [關鍵] 統一縮圖高度，防止照片太長 */
-            object-fit: cover; /* 裁剪圖片以填滿區域，不變形 */
+            height: 100%;
+            object-fit: cover; 
             display: block;
-            border-radius: 4px;
-            cursor: pointer; /*滑鼠移上去變成手指，提示可點擊 */
+            cursor: pointer;
             transition: opacity 0.2s, transform 0.2s;
         }
         
         .record-thumbnail:hover {
-            opacity: 0.8; /* 滑鼠移上去變淡 */
-            transform: scale(1.02); /* 微幅放大 */
+            opacity: 0.85;
+            transform: scale(1.02);
         }
 
-        /* 如果只有一張圖，可以讓它高一點 */
-        .single-image-container .record-thumbnail {
-            height: 250px; 
+        /* 只有 1 張照片時撐滿 */
+        .record-image-container.count-1 {
+            grid-template-columns: 1fr;
+        }
+        .record-image-container.count-1 .img-box {
+            height: 280px;
+        }
+
+        /* FB 經典黑底遮罩 */
+        .more-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.55); 
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer; /* 讓遮罩也顯示手指，提示可點擊 */
         }
 
         /* =========================================
-           3. Lightbox 彈出視窗 CSS (完全新增)
+           3. 升級版 Lightbox 彈出視窗與控制鈕 CSS
            ========================================= */
         .lightbox-overlay {
-            display: none; /* 預設是隱藏的 */
+            display: none; 
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* FB 風格的黑色半透明背景 */
-            z-index: 2000; /* 確保在最上層 */
+            background-color: rgba(0, 0, 0, 0.9); 
+            z-index: 2000; 
             justify-content: center;
             align-items: center;
-            cursor: zoom-out; /* 提示點擊可關閉 */
         }
 
-        /* 彈出視窗內的大圖 */
+        /* 大圖容器 */
+        .lightbox-content-wrapper {
+            position: relative;
+            max-width: 90%;
+            max-height: 85%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .lightbox-image {
-            max-width: 90%; /* 防止圖片超出螢幕寬度 */
-            max-height: 90%; /* 防止圖片超出螢幕高度 */
+            max-width: 100%; 
+            max-height: 85vh; 
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             border-radius: 4px;
-            cursor: default; /* 在圖片上恢復預設滑鼠 */
+            user-select: none; /* 防止連續點擊時選取到圖片藍底 */
         }
 
-        /* 關閉按鈕 */
+        /* 頂部右上角關閉按鈕 */
         .lightbox-close {
             position: absolute;
             top: 20px;
@@ -210,8 +238,40 @@
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
-            text-decoration: none;
+            z-index: 2100;
+            transition: color 0.2s;
         }
+        .lightbox-close:hover {
+            color: #ffeb3b;
+        }
+
+        /* 左右切換箭頭通用樣式 */
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+            border: none;
+            font-size: 32px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2100;
+            transition: background-color 0.2s, color 0.2s;
+            user-select: none;
+        }
+        .lightbox-nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #111111;
+        }
+
+        .btn-prev { left: -70px; } /* 置於大圖左側側邊 */
+        .btn-next { right: -70px; } /* 置於大圖右側側邊 */
 
         /* 手機板響應式微調 */
         @media (max-width: 768px) {
@@ -219,18 +279,14 @@
             nav { justify-content: center; margin-top: 10px; }
             nav a { margin: 5px 10px; }
             .container { padding-top: 240px; }
+            .img-box { height: 120px; } 
+            .record-image-container.count-1 .img-box { height: 200px; }
             
-            /* 手機上多圖變成 2 欄，避免縮圖太小 */
-            .multi-image-container {
-                grid-template-columns: repeat(2, 1fr); 
-            }
-            .record-thumbnail {
-                height: 120px; /* 手機縮圖矮一點 */
-            }
-            .lightbox-close {
-                top: 10px;
-                right: 20px;
-            }
+            .lightbox-close { top: 15px; right: 20px; font-size: 35px; }
+            /* 手機版將箭頭往內縮，移入畫面邊緣內 */
+            .btn-prev { left: 5px; background-color: rgba(0,0,0,0.6); }
+            .btn-next { right: 5px; background-color: rgba(0,0,0,0.6); }
+            .lightbox-nav-btn { width: 40px; height: 40px; font-size: 24px; }
         }
     </style>
 </head>
@@ -256,7 +312,6 @@
 
     <div class="container">
 
-        <!-- 紀錄卡片 1：單張圖 -->
         <div class="record-card">
             <div class="record-header">
                 <h2 class="record-title">歡迎 新北拱心宮 (拱天宮 白沙屯媽祖分靈)</h2>
@@ -266,14 +321,16 @@
                 二重埔慈元宮 全體歡迎您
                 願 天上聖母 媽祖婆 庇佑大家2025年平安健康
             </div>
-            <!-- [修改] 加上 single-image-container，裡面的圖片加上 class="record-thumbnail" -->
-            <div class="record-image-container single-image-container">
-                <img src="imageshw/BMP1.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/BMP2.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+            <div class="record-image-container">
+                <div class="img-box">
+                    <img src="imageshw/BMP1.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/BMP2.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
             </div>
         </div>
 
-        <!-- 紀錄卡片 2：多張圖 -->
         <div class="record-card">
             <div class="record-header">
                 <h2 class="record-title">歡迎 白沙屯媽祖台中清水分靈</h2>
@@ -291,16 +348,31 @@
 
                 歡迎蒞臨 二重埔慈元宮
             </div>
-            <!-- [修改] 加上 multi-image-container，所有圖片加上 class="record-thumbnail" -->
-            <div class="record-image-container multi-image-container">
-                <img src="imageshw/TMP1.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP2.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP3.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP4.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP5.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP6.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP7.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
-                <img src="imageshw/TMP8.jpg" alt="歷史照片" class="record-image" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+            <div class="record-image-container">
+                <div class="img-box">
+                    <img src="imageshw/TMP1.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP2.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP3.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP4.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP5.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP6.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP7.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
+                <div class="img-box">
+                    <img src="imageshw/TMP8.jpg" alt="歷史照片" class="record-thumbnail" onerror="this.src='https://placehold.co/600x400?text=請替換成歷史照片'">
+                </div>
             </div>
         </div>
 
@@ -310,54 +382,163 @@
         © 二重埔慈元宮 版權所有
     </footer>
 
-    <!-- =========================================
-         4. Lightbox 彈出視窗 HTML 結構 (完全新增)
-         ========================================= -->
-    <!-- 這個區塊預設是隱藏的，只有點擊縮圖時才會被 JS 呼叫出來 -->
     <div id="lightboxOverlay" class="lightbox-overlay">
-        <span class="lightbox-close">&times;</span>
-        <img id="lightboxImage" src="" alt="放大照片" class="lightbox-image">
+        <span class="lightbox-close" id="lightboxCloseBtn">&times;</span>
+        <div class="lightbox-content-wrapper">
+            <button class="lightbox-nav-btn btn-prev" id="lightboxPrevBtn">&#10094;</button>
+            
+            <img id="lightboxImage" src="" alt="放大照片" class="lightbox-image">
+            
+            <button class="lightbox-nav-btn btn-next" id="lightboxNextBtn">&#10095;</button>
+        </div>
     </div>
 
-    <!-- =========================================
-         5. Lightbox 互動 JavaScript (完全新增)
-         ========================================= -->
     <script>
-        // 取得必要的 HTML 元素
-        const thumbnails = document.querySelectorAll('.record-thumbnail');
+        // 用來儲存當前正在觀看的相簿資料
+        let currentAlbumSources = []; // 當前相簿的所有圖片路徑陣列
+        let currentImageIndex = 0;    // 當前正在看第幾張圖
+
+        // 取得 Lightbox 相關控制元素
         const overlay = document.getElementById('lightboxOverlay');
         const lightboxImg = document.getElementById('lightboxImage');
-        const closeBtn = document.querySelector('.lightbox-close');
+        const closeBtn = document.getElementById('lightboxCloseBtn');
+        const prevBtn = document.getElementById('lightboxPrevBtn');
+        const nextBtn = document.getElementById('lightboxNextBtn');
 
-        // [功能1] 開啟 Lightbox
-        // 幫頁面上所有縮圖加上點擊事件
-        thumbnails.forEach(thumb => {
-            thumb.addEventListener('click', function() {
-                // 1. 把縮圖的 src (路徑) 給大圖
-                lightboxImg.src = this.src;
-                // 2. 顯示黑色彈出視窗 (利用 flex 置中)
-                overlay.style.display = 'flex';
-                // 3. 為了防止圖片太長導致外層出現滾動條，開啟時把 body 鎖住
-                document.body.style.overflow = 'hidden';
+        // 1. 初始化每本相簿（卡片）的排版與點擊事件
+        const containers = document.querySelectorAll('.record-image-container');
+        
+        containers.forEach(container => {
+            const imgBoxes = container.querySelectorAll('.img-box');
+            const totalCount = imgBoxes.length;
+
+            // 收集這本相簿裡所有圖片的 src 網址
+            const albumSrcs = [];
+            container.querySelectorAll('.record-thumbnail').forEach(img => {
+                albumSrcs.push(img.src);
+            });
+
+            // 只有 1 張圖的排版處理
+            if (totalCount === 1) {
+                container.classList.add('count-1');
+            }
+
+            // 超過 4 張圖時的 FB 排版與遮罩處理
+            if (totalCount > 4) {
+                imgBoxes.forEach((box, index) => {
+                    if (index >= 4) {
+                        box.classList.add('hide-thumb'); // 網頁畫面隱藏第5張之後
+                    }
+                    if (index === 3) {
+                        const remaining = totalCount - 4;
+                        if (remaining > 0) {
+                            const mask = document.createElement('div');
+                            mask.className = 'more-mask';
+                            mask.innerText = `+${remaining}`;
+                            
+                            // 當點擊「+N」遮罩時，等同於點擊它下面的第 4 張圖片
+                            mask.addEventListener('click', function(e) {
+                                e.stopPropagation(); // 防止事件干擾
+                                openLightbox(albumSrcs, 3);
+                            });
+                            box.appendChild(mask);
+                        }
+                    }
+                });
+            }
+
+            // 幫這本相簿裡的每一張縮圖綁定「開啟相簿」事件
+            container.querySelectorAll('.record-thumbnail').forEach((thumb, index) => {
+                thumb.addEventListener('click', function() {
+                    openLightbox(albumSrcs, index);
+                });
             });
         });
 
-        // [功能2] 關閉 Lightbox
-        // 定義一個關閉的函式
+        // 2. 開啟 Lightbox 函式
+        function openLightbox(albumArray, index) {
+            currentAlbumSources = albumArray; // 載入整本相簿的圖片清單
+            currentImageIndex = index;        // 設定目前看第幾張
+            
+            updateLightboxImage();            // 更新大圖顯示
+            overlay.style.display = 'flex';   // 顯示黑底視窗
+            document.body.style.overflow = 'hidden'; // 鎖定網頁滾動
+        }
+
+        // 3. 更新大圖切換顯示的控制核心
+        function updateLightboxImage() {
+            if (currentAlbumSources.length === 0) return;
+            
+            // 防呆機制：如果索引值超出範圍則循環
+            if (currentImageIndex < 0) {
+                currentImageIndex = currentAlbumSources.length - 1; // 換到最後一張
+            } else if (currentImageIndex >= currentAlbumSources.length) {
+                currentImageIndex = 0; // 換回第一張
+            }
+
+            // 將對應的圖片路徑塞給大圖標籤
+            lightboxImg.src = currentAlbumSources[currentImageIndex];
+
+            // 如果這本相簿只有一張圖，隱藏左右控制箭頭，否則顯示
+            if (currentAlbumSources.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            }
+        }
+
+        // 4. 切換下一張 / 上一張 的功能
+        function showNextImage() {
+            currentImageIndex++;
+            updateLightboxImage();
+        }
+
+        function showPrevImage() {
+            currentImageIndex--;
+            updateLightboxImage();
+        }
+
+        // 5. 關閉 Lightbox 函式
         function closeLightbox() {
-            overlay.style.display = 'none'; // 隱藏視窗
-            lightboxImg.src = ''; // 清空圖片路徑，節省資源
+            overlay.style.display = 'none';
+            lightboxImg.src = '';
+            currentAlbumSources = [];
             document.body.style.overflow = 'auto'; // 恢復網頁滾動
         }
 
-        // 點擊關閉按鈕時關閉
+        // 6. 綁定所有的點擊與按鍵事件
+        nextBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // 防止點到大圖關閉
+            showNextImage();
+        });
+
+        prevBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showPrevImage();
+        });
+
         closeBtn.addEventListener('click', closeLightbox);
 
-        // 點擊黑色背景處 (也就是 overlay 本身) 時也關閉，像 FB 一樣
+        // 點擊大圖四周的黑色背景處就關閉
         overlay.addEventListener('click', function(e) {
-            // 確保點擊的是黑色背景 (overlay) 而不是圖片本身
-            if (e.target === overlay) {
+            if (e.target === overlay || e.target.classList.contains('lightbox-content-wrapper')) {
                 closeLightbox();
+            }
+        });
+
+        // 7. 智慧鍵盤監聽功能（支援 左右鍵、Esc鍵）
+        document.addEventListener('keydown', function(e) {
+            // 只有在 Lightbox 打開時才觸發鍵盤事件
+            if (overlay.style.display === 'flex') {
+                if (e.key === 'ArrowRight') {
+                    showNextImage(); // 按鍵盤「→」看下一張
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage(); // 按鍵盤「←」看上一張
+                } else if (e.key === 'Escape') {
+                    closeLightbox(); // 按鍵盤「Esc」直接關閉
+                }
             }
         });
     </script>
